@@ -57,9 +57,10 @@ def generate_ai_summary(raw_news_payload: str) -> str:
     )
     
     user_prompt = (
-        f"Analyze the following raw news items and compile a clean, punchy Markdown daily report "
-        f"optimized for Telegram mobile viewing. Use bullet points, bold headers, and put the HTTP hyperlinks "
-        f"natively next to the headlines. Keep it highly technical and avoid generic fluff:\n\n{raw_news_payload}"
+        f"Analyze the following raw news items and compile a clean, punchy HTML daily report "
+        f"optimized for Telegram mobile viewing. Use <ul> and <li> for bullets, <b> for headers, "
+        f"and wrap links inline like this: <a href=\"LINK\">Headline</a>. "
+        f"Keep it highly technical, use zero markdown notation, and do not use generic fluff:\n\n{raw_news_payload}"
     )
 
     try:
@@ -85,7 +86,7 @@ def dispatch_telegram_payload(content: str):
     payload = {
         "chat_id": TELEGRAM_CHAT_ID,
         "text": content,
-        "parse_mode": "Markdown",
+        "parse_mode": "HTML",
         "disable_web_page_preview": False
     }
     
