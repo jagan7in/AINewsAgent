@@ -56,11 +56,16 @@ def generate_ai_summary(raw_news_payload: str) -> str:
         "Your task is to convert raw RSS article payloads into an executive daily briefing."
     )
     
+    # Updated prompt: explicitly forbidding <ul> and <li>, using standard text bullets
     user_prompt = (
         f"Analyze the following raw news items and compile a clean, punchy HTML daily report "
-        f"optimized for Telegram mobile viewing. Use <ul> and <li> for bullets, <b> for headers, "
-        f"and wrap links inline like this: <a href=\"LINK\">Headline</a>. "
-        f"Keep it highly technical, use zero markdown notation, and do not use generic fluff:\n\n{raw_news_payload}"
+        f"optimized for Telegram mobile viewing.\n\n"
+        f"CRITICAL FORMATTING RULES:\n"
+        f"1. Use standard text dashes (-) or bullets (•) for list items. Do NOT use <ul> or <li> tags.\n"
+        f"2. Use <b>text</b> for bold headers or key terms.\n"
+        f"3. Wrap links inline using exactly this syntax: <a href=\"LINK\">Headline text</a>\n"
+        f"4. Do not use any markdown notation (like asterisks or backticks). Return ONLY valid Telegram HTML.\n\n"
+        f"Raw news data:\n{raw_news_payload}"
     )
 
     try:
